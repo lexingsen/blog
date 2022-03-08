@@ -1,8 +1,8 @@
 package routers
 
 import (
+	v1 "blog/api/v1"
 	"blog/utils"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,16 +11,15 @@ func InitRouter() {
 	gin.SetMode(utils.ServerMode)
 
 	r := gin.Default()
-	router := r.Group("api/v1")
+	routerv1 := r.Group("api/v1")
 	{
-		router.GET("/hello", func(c *gin.Context) {
-			c.JSON(
-				http.StatusOK,
-				gin.H{
-					"message": "hello world",
-				},
-			)
-		})
+		// user
+		routerv1.POST("user/add", v1.AddUser)
+		routerv1.GET("users", v1.GetUserList)
+		routerv1.PUT("user/:id", v1.UpdateUser)
+		routerv1.DELETE("user/:id", v1.RemoveUser)
+		// category
+		// article
 	}
 
 	r.Run(utils.ServerPort)
